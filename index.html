@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesa – Agent-Based Modeling in Python</title>
+  <meta name="description" content="Mesa is a Python framework for agent-based modeling. Build and run simulations of complex systems." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="nav-bar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-icon">⬡</span> Mesa
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#what-is-mesa">What is Mesa</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#install">Install</a>
+        <a href="#example">Example</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#visualization">Visualization</a>
+        <a href="#simulation">Simulation</a>
+        <a href="#contribute">Contribute</a>
+        <a href="#resources">Resources</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon">☀</span>
+        </button>
+        <a href="https://github.com/projectmesa/mesa" target="_blank" class="fhb fhb--sm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub ↗
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#what-is-mesa" class="mobile-link">What is Mesa</a>
+    <a href="#concepts" class="mobile-link">Concepts</a>
+    <a href="#install" class="mobile-link">Install</a>
+    <a href="#example" class="mobile-link">Example</a>
+    <a href="#how-it-works" class="mobile-link">How It Works</a>
+    <a href="#visualization" class="mobile-link">Visualization</a>
+    <a href="#simulation" class="mobile-link">Simulation</a>
+    <a href="#contribute" class="mobile-link">Contribute</a>
+    <a href="#resources" class="mobile-link">Resources</a>
+  </div>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-bg-grid"></div>
+      <div class="bg-pattern bg-pattern--dots bg-pattern--fade-edges"></div>
+      <div class="hero-content">
+        <div class="hero-badge">Python · Open Source · v3.x</div>
+        <h1 class="hero-title">
+          Agent-Based<br/>
+          <span class="accent">Modeling</span><br/>
+          in Python
+        </h1>
+        <p class="hero-desc">
+          Mesa is a Python framework for building, running, and analyzing
+          agent-based models. Define agents and their interaction rules to
+          simulate complex systems — from traffic flow to epidemic spread —
+          using readable, idiomatic Python code.
+        </p>
+        <div class="hero-actions">
+          <a href="#install" class="fhb fhb--primary">Get Started →</a>
+          <a href="https://github.com/projectmesa/mesa" target="_blank" class="fhb fhb--ghost">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">5k+</span><span class="stat-label">GitHub Stars</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Years Active</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">Python</span><span class="stat-label">First Class</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="agent-grid" id="agentGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===== WHAT IS MESA ===== -->
+    <section class="section" id="what-is-mesa">
+      <div class="container">
+        <div class="section-label">Overview</div>
+        <h2 class="section-title">What is Mesa?</h2>
+        <p class="section-intro">
+          Mesa is an open-source Python framework for <strong>agent-based modeling (ABM)</strong> —
+          a simulation approach in which individual agents follow defined rules and
+          system-level behavior emerges from their interactions.
+        </p>
+        <div class="two-col">
+          <div class="prose-block">
+            <p>
+              Rather than describing a system through aggregate equations, ABM
+              takes a bottom-up perspective: each agent perceives its local
+              environment and responds according to its own logic. Collective
+              patterns emerge from these individual interactions.
+            </p>
+            <p>
+              Mesa provides a structured Python API for defining agents and models,
+              running batch experiments, collecting time-series data, and rendering
+              results — all within the standard Python ecosystem.
+            </p>
+          </div>
+          <div class="use-case-grid">
+            <div class="use-case-card">
+              <div class="use-case-icon">🚗</div>
+              <div class="use-case-title">Traffic Flow</div>
+              <div class="use-case-desc">Model vehicles navigating a road network to study congestion and routing behavior.</div>
+            </div>
+            <div class="use-case-card">
+              <div class="use-case-icon">🦠</div>
+              <div class="use-case-title">Disease Spread</div>
+              <div class="use-case-desc">Implement SIR-type epidemic models to analyze outbreak dynamics over time.</div>
+            </div>
+            <div class="use-case-card">
+              <div class="use-case-icon">📈</div>
+              <div class="use-case-title">Economics</div>
+              <div class="use-case-desc">Study market dynamics, wealth distribution, and emergent pricing behavior.</div>
+            </div>
+            <div class="use-case-card">
+              <div class="use-case-icon">🐦</div>
+              <div class="use-case-title">Flocking / Swarms</div>
+              <div class="use-case-desc">Reproduce collective behavior such as Boids flocking or ant colony foraging.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CORE CONCEPTS ===== -->
+    <section class="section section-alt" id="concepts">
+      <div class="bg-pattern bg-pattern--grid bg-pattern--fade-x"></div>
+      <div class="container">
+        <div class="section-label">Core Concepts</div>
+        <h2 class="section-title">Building Blocks</h2>
+        <p class="section-intro">
+          Every Mesa simulation is composed of four core abstractions.
+          Understanding these is sufficient to build and run a model.
+        </p>
+        <div class="concepts-grid">
+          <div class="concept-card">
+            <div class="concept-number">01</div>
+            <div class="concept-icon">🤖</div>
+            <h3 class="concept-title">Agent</h3>
+            <p class="concept-desc">
+              The fundamental unit of a simulation. An <strong>Agent</strong> is any
+              entity that perceives its environment and takes actions. Agents are
+              Python classes that subclass <code>mesa.Agent</code>.
+            </p>
+            <div class="concept-snippet">
+              <pre><code><span class="kw">class</span> <span class="cls">MyAgent</span>(mesa.Agent):
+    <span class="kw">def</span> <span class="fn">step</span>(self):
+        <span class="cm"># agent behavior defined here</span>
+        ...</code></pre>
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-number">02</div>
+            <div class="concept-icon">🌐</div>
+            <h3 class="concept-title">Model</h3>
+            <p class="concept-desc">
+              The top-level container for a simulation. A <strong>Model</strong>
+              initializes the environment, creates agents, and holds any shared
+              state. It subclasses <code>mesa.Model</code>.
+            </p>
+            <div class="concept-snippet">
+              <pre><code><span class="kw">class</span> <span class="cls">MyModel</span>(mesa.Model):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        <span class="kw">super</span>().__init__()
+        <span class="cm"># initialize agents and environment</span></code></pre>
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-number">03</div>
+            <div class="concept-icon">📋</div>
+            <h3 class="concept-title">Scheduler</h3>
+            <p class="concept-desc">
+              Determines the order in which agents act each step. Mesa provides
+              <strong>RandomActivation</strong>, <strong>SimultaneousActivation</strong>,
+              and <strong>StagedActivation</strong> out of the box.
+            </p>
+            <div class="concept-snippet">
+              <pre><code><span class="cm"># agents act in a random order each step</span>
+self.schedule = <span class="cls">RandomActivation</span>(self)
+self.schedule.<span class="fn">add</span>(agent)</code></pre>
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-number">04</div>
+            <div class="concept-icon">⏱</div>
+            <h3 class="concept-title">Step</h3>
+            <p class="concept-desc">
+              One discrete unit of simulated time. Calling <code>model.step()</code>
+              advances the scheduler, which invokes each agent's <code>step()</code>
+              method in turn. Repeat for as many steps as the experiment requires.
+            </p>
+            <div class="concept-snippet">
+              <pre><code>model = <span class="cls">MyModel</span>()
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">100</span>):
+    model.<span class="fn">step</span>()  <span class="cm"># advance one time step</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INSTALLATION ===== -->
+    <section class="section" id="install">
+      <div class="bg-pattern bg-pattern--diagonal-stripes bg-pattern--fade-y"></div>
+      <div class="container">
+        <div class="section-label">Getting Started</div>
+        <h2 class="section-title">Installation</h2>
+        <p class="section-intro">
+          Mesa requires Python 3.10 or newer. The package is available on PyPI.
+        </p>
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="step-badge">Step 1</div>
+            <h3>Create a virtual environment <span class="step-optional">(recommended)</span></h3>
+            <div class="code-block" data-lang="bash">
+              <button class="copy-btn" aria-label="Copy code">Copy</button>
+              <pre><code>python -m venv venv
+source venv/bin/activate  <span class="cm"># Windows: venv\Scripts\activate</span></code></pre>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-badge">Step 2</div>
+            <h3>Install Mesa via pip</h3>
+            <div class="code-block" data-lang="bash">
+              <button class="copy-btn" aria-label="Copy code">Copy</button>
+              <pre><code>pip install mesa</code></pre>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-badge">Step 3</div>
+            <h3>Install with optional visualization support</h3>
+            <div class="code-block" data-lang="bash">
+              <button class="copy-btn" aria-label="Copy code">Copy</button>
+              <pre><code>pip install mesa[viz]</code></pre>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-badge">Step 4</div>
+            <h3>Verify your installation</h3>
+            <div class="code-block" data-lang="python">
+              <button class="copy-btn" aria-label="Copy code">Copy</button>
+              <pre><code><span class="kw">import</span> mesa
+<span class="fn">print</span>(mesa.__version__)  <span class="cm"># e.g., 3.1.4</span></code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="info-box">
+          <span class="info-icon">💡</span>
+          <div>
+            <strong>Installing from source?</strong> Clone the repository and run
+            <code>pip install -e .</code> from the project root. See the
+            <a href="https://github.com/projectmesa/mesa" target="_blank">GitHub README</a>
+            for full instructions.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EXAMPLE ===== -->
+    <section class="section section-alt" id="example">
+      <div class="bg-pattern bg-pattern--checkerboard bg-pattern--fade-center"></div>
+      <div class="container">
+        <div class="section-label">Beginner Example</div>
+        <h2 class="section-title">Your First Mesa Model</h2>
+        <p class="section-intro">
+          A minimal money model: agents randomly transfer $1 to another agent.
+          The complete simulation fits in approximately 30 lines of code.
+        </p>
+        <div class="example-layout">
+          <div class="code-block example-code" data-lang="python">
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+            <pre><code><span class="kw">import</span> mesa
+
+<span class="cm"># ── 1. Define the Agent ──────────────────────────────────────────</span>
+<span class="kw">class</span> <span class="cls">MoneyAgent</span>(mesa.Agent):
+    <span class="st">"""An agent with a fixed initial endowment."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, model):
+        <span class="kw">super</span>().__init__(model)
+        self.wealth = <span class="num">1</span>          <span class="cm"># initial wealth</span>
+
+    <span class="kw">def</span> <span class="fn">step</span>(self):
+        <span class="cm"># Skip if the agent has no wealth to transfer</span>
+        <span class="kw">if</span> self.wealth == <span class="num">0</span>:
+            <span class="kw">return</span>
+
+        <span class="cm"># Select a random agent and transfer $1</span>
+        other = self.random.choice(self.model.agents)
+        other.wealth += <span class="num">1</span>
+        self.wealth -= <span class="num">1</span>
+
+
+<span class="cm"># ── 2. Define the Model ──────────────────────────────────────────</span>
+<span class="kw">class</span> <span class="cls">MoneyModel</span>(mesa.Model):
+    <span class="st">"""A model of pairwise wealth redistribution."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n=<span class="num">10</span>):
+        <span class="kw">super</span>().__init__()
+        self.n_agents = n
+
+        <span class="cm"># Batch-create agents; Mesa attaches them to self.agents</span>
+        <span class="cls">MoneyAgent</span>.create_agents(self, n)
+
+    <span class="kw">def</span> <span class="fn">step</span>(self):
+        <span class="cm"># Activate all agents in a random order each step</span>
+        self.agents.shuffle_do(<span class="st">"step"</span>)
+
+
+<span class="cm"># ── 3. Run the Simulation ────────────────────────────────────────</span>
+model = <span class="cls">MoneyModel</span>(n=<span class="num">50</span>)
+
+<span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>):
+    model.<span class="fn">step</span>()
+
+<span class="cm"># Inspect the resulting wealth distribution</span>
+wealth = [agent.wealth <span class="kw">for</span> agent <span class="kw">in</span> model.agents]
+<span class="fn">print</span>(wealth)</code></pre>
+          </div>
+          <div class="example-explanations">
+            <div class="collapsible-item open">
+              <button class="collapsible-trigger">
+                <span class="coll-num">①</span> Define the Agent
+                <span class="coll-arrow">▾</span>
+              </button>
+              <div class="collapsible-body">
+                <p>
+                  <code>MoneyAgent</code> subclasses <code>mesa.Agent</code>.
+                  Each instance receives a <code>unique_id</code> and a reference
+                  to its parent model automatically. The <code>wealth</code>
+                  attribute and <code>step()</code> method are user-defined.
+                </p>
+              </div>
+            </div>
+            <div class="collapsible-item">
+              <button class="collapsible-trigger">
+                <span class="coll-num">②</span> Define the Model
+                <span class="coll-arrow">▾</span>
+              </button>
+              <div class="collapsible-body">
+                <p>
+                  <code>MoneyModel</code> subclasses <code>mesa.Model</code>.
+                  <code>MoneyAgent.create_agents(self, n)</code> uses Mesa's
+                  batch-creation API to instantiate all agents and register them
+                  under <code>self.agents</code> automatically.
+                </p>
+              </div>
+            </div>
+            <div class="collapsible-item">
+              <button class="collapsible-trigger">
+                <span class="coll-num">③</span> Run the Simulation
+                <span class="coll-arrow">▾</span>
+              </button>
+              <div class="collapsible-body">
+                <p>
+                  Each call to <code>model.step()</code> advances time by one step.
+                  <code>self.agents.shuffle_do("step")</code> invokes each agent's
+                  <code>step()</code> in a freshly randomized order, avoiding
+                  systematic activation bias.
+                </p>
+              </div>
+            </div>
+            <div class="collapsible-item">
+              <button class="collapsible-trigger">
+                <span class="coll-num">④</span> Expected output
+                <span class="coll-arrow">▾</span>
+              </button>
+              <div class="collapsible-body">
+                <p>
+                  Despite uniform initial conditions, wealth becomes concentrated
+                  rapidly. This is a well-known ABM result: Boltzmann-like
+                  distributions emerge from random pairwise transfers. Increasing
+                  the agent count or number of steps produces a stronger effect.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="section" id="how-it-works">
+      <div class="bg-pattern bg-pattern--vertical-lines bg-pattern--fade-right"></div>
+      <div class="container">
+        <div class="section-label">Simulation Flow</div>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-intro">
+          A Mesa simulation follows a well-defined execution lifecycle.
+          The steps below describe what occurs internally during a run.
+        </p>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-icon">🛠</div>
+            <div class="flow-content">
+              <h3>1 · Initialize the Model</h3>
+              <p>
+                Instantiate your <code>Model</code> subclass. The constructor
+                creates agents, sets up any spatial environment (grids, networks,
+                continuous spaces), and initializes shared state.
+              </p>
+            </div>
+          </div>
+          <div class="flow-connector" aria-hidden="true">↓</div>
+          <div class="flow-step">
+            <div class="flow-icon">🔁</div>
+            <div class="flow-content">
+              <h3>2 · Advance the Clock</h3>
+              <p>
+                Each call to <code>model.step()</code> represents one discrete
+                unit of simulated time. The number of steps to run depends on
+                the requirements of the experiment.
+              </p>
+            </div>
+          </div>
+          <div class="flow-connector" aria-hidden="true">↓</div>
+          <div class="flow-step">
+            <div class="flow-icon">🤖</div>
+            <div class="flow-content">
+              <h3>3 · Agents Execute</h3>
+              <p>
+                The scheduler iterates over each registered agent and calls its
+                <code>step()</code> method. Agents read environment state, make
+                decisions, update positions or attributes, and interact with other
+                agents according to their defined behavior.
+              </p>
+            </div>
+          </div>
+          <div class="flow-connector" aria-hidden="true">↓</div>
+          <div class="flow-step">
+            <div class="flow-icon">📊</div>
+            <div class="flow-content">
+              <h3>4 · Collect Data</h3>
+              <p>
+                Mesa's <code>DataCollector</code> records model-level and
+                agent-level metrics at each step. Data is stored as a pandas
+                <code>DataFrame</code>, available for analysis after the run.
+              </p>
+            </div>
+          </div>
+          <div class="flow-connector" aria-hidden="true">↓</div>
+          <div class="flow-step">
+            <div class="flow-icon">📈</div>
+            <div class="flow-content">
+              <h3>5 · Analyze &amp; Visualize</h3>
+              <p>
+                Explore collected data with pandas, matplotlib, or Mesa's
+                built-in browser visualizer. Use <code>BatchRunner</code>
+                to run parameter sweeps and compare outcomes across multiple runs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VISUALIZATION ===== -->
+    <section class="section section-alt" id="visualization">
+      <div class="bg-pattern bg-pattern--horizontal-lines bg-pattern--fade-bottom"></div>
+      <div class="container">
+        <div class="section-label">Visualization</div>
+        <h2 class="section-title">Visualizing Your Model</h2>
+        <p class="section-intro">
+          Mesa includes a browser-based visualization server that renders agent
+          state and simulation metrics in real time as the model executes.
+        </p>
+        <div class="viz-grid">
+          <div class="viz-card">
+            <div class="viz-icon">🌐</div>
+            <h3>SolaraViz (v3+)</h3>
+            <p>
+              Mesa 3 ships <strong>SolaraViz</strong>, a reactive visualization
+              layer built on <a href="https://solara.dev" target="_blank">Solara</a>.
+              Components such as <code>make_space_component</code> and
+              <code>make_plot_component</code> render agent grids and live charts
+              in the browser with minimal configuration.
+            </p>
+          </div>
+          <div class="viz-card">
+            <div class="viz-icon">🗺</div>
+            <h3>Space Renderers</h3>
+            <p>
+              Render agents on a <strong>grid</strong> (MultiGrid / SingleGrid),
+              a <strong>continuous space</strong>, or a <strong>network</strong>
+              (NetworkGrid). Agent color, shape, and size can map to any attribute
+              on the agent class.
+            </p>
+          </div>
+          <div class="viz-card">
+            <div class="viz-icon">📉</div>
+            <h3>Live Charts</h3>
+            <p>
+              Use <code>make_plot_component</code> to render time-series charts of
+              any metric tracked by <code>DataCollector</code>. Charts update
+              automatically after each step.
+            </p>
+          </div>
+          <div class="viz-card">
+            <div class="viz-icon">🎛</div>
+            <h3>Parameter Controls</h3>
+            <p>
+              Expose model parameters as interactive sliders in the browser UI.
+              Adjust values such as infection rate or agent count and observe the
+              effect on a running simulation — useful for exploration and teaching.
+            </p>
+          </div>
+        </div>
+        <div class="code-block" data-lang="python">
+          <button class="copy-btn" aria-label="Copy code">Copy</button>
+          <pre><code><span class="kw">from</span> mesa.visualization <span class="kw">import</span> SolaraViz, make_space_component, make_plot_component
+
+<span class="cm"># Define the visual representation of each agent</span>
+<span class="kw">def</span> <span class="fn">agent_portrayal</span>(agent):
+    <span class="kw">return</span> {<span class="st">"color"</span>: <span class="st">"tab:blue"</span>, <span class="st">"size"</span>: <span class="num">25</span>}
+
+<span class="cm"># Assemble the visualization page</span>
+page = <span class="cls">SolaraViz</span>(
+    <span class="cls">MoneyModel</span>,
+    components=[
+        <span class="fn">make_space_component</span>(agent_portrayal),
+        <span class="fn">make_plot_component</span>(<span class="st">"Gini"</span>),       <span class="cm"># plot Gini coefficient over time</span>
+    ],
+    model_params={<span class="st">"n"</span>: <span class="num">50</span>},
+)
+page  <span class="cm"># render in Jupyter, or serve as a web application</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INTERACTIVE SIMULATION ===== -->
+    <section class="section" id="simulation">
+      <div class="bg-pattern bg-pattern--dots bg-pattern--fade-top"></div>
+      <div class="container">
+        <div class="section-label">Live Demo</div>
+        <h2 class="section-title">ABM in the Browser</h2>
+        <p class="section-intro">
+          This simulation runs in the browser. Eight agents navigate a 10×10 grid
+          each step under a single occupancy constraint — no two agents may share
+          a cell. The behavior directly mirrors how a Mesa model operates.
+        </p>
+        <div class="sim-panel">
+          <div class="sim-left">
+            <div class="sim-grid-wrap">
+              <div class="sim-grid" id="simGrid"></div>
+              <div class="sim-overlay" id="simOverlay"></div>
+            </div>
+          </div>
+          <div class="sim-right">
+            <div class="sim-status-row">
+              <span class="sim-status-badge" id="sim-badge">⏸ Paused</span>
+              <span class="sim-step-counter">Step <strong id="s-step">0</strong></span>
+            </div>
+            <div class="sim-stats">
+              <div class="sim-stat-pill">Agents <strong>8</strong></div>
+              <div class="sim-stat-pill">Grid <strong>10 × 10</strong></div>
+            </div>
+            <div class="sim-controls">
+              <button class="btn btn-primary btn-sm" id="sim-step-btn" onclick="simStepOnce()">Step →</button>
+              <button class="btn btn-ghost   btn-sm" id="sim-run-btn"  onclick="simToggleRun()">Run ▶</button>
+              <button class="btn btn-ghost   btn-sm" id="sim-reset-btn" onclick="simReset()">Reset ↺</button>
+            </div>
+            <div class="sim-speed-block">
+              <label class="sim-speed-label">
+                Speed
+                <span class="sim-speed-name" id="sim-speed-name">Medium</span>
+              </label>
+              <div class="sim-speed-btns">
+                <button class="sim-speed-btn" data-speed="slow"   onclick="simSetSpeed('slow')">Slow</button>
+                <button class="sim-speed-btn sim-speed-active" data-speed="medium" onclick="simSetSpeed('medium')">Medium</button>
+                <button class="sim-speed-btn" data-speed="fast"   onclick="simSetSpeed('fast')">Fast</button>
+              </div>
+            </div>
+            <div class="sim-legend">
+              <div class="sim-legend-item">
+                <span class="sim-legend-dot" style="background:var(--accent);opacity:.25;border-radius:2px;"></span>
+                Cell flash = agent moved to this cell
+              </div>
+              <div class="sim-legend-item">
+                <span class="sim-legend-dot" style="background:#3B8BD4;border-radius:50%;"></span>
+                Each dot = one autonomous agent
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sim-concepts">
+          <div class="sim-concept-card">
+            <span class="sim-tag sim-tag-blue">Agent</span>
+            <h4>What is an agent?</h4>
+            <p>
+              Each numbered dot is an <strong>agent</strong> — an autonomous entity
+              with its own position and behavior rule. In Mesa, this corresponds to
+              <code>class MyAgent(mesa.Agent)</code> with a <code>step()</code> method.
+            </p>
+          </div>
+          <div class="sim-concept-card">
+            <span class="sim-tag sim-tag-green">Model</span>
+            <h4>What is a model?</h4>
+            <p>
+              The 10×10 grid is the <strong>model</strong> — the shared environment
+              all agents inhabit. In Mesa this is a <code>mesa.Model</code> subclass
+              that holds the agent collection, the grid, and shared state.
+            </p>
+          </div>
+          <div class="sim-concept-card">
+            <span class="sim-tag sim-tag-amber">Step</span>
+            <h4>What is a step?</h4>
+            <p>
+              One <strong>step</strong> is one discrete tick of simulated time.
+              Every agent acts once per step. Use <em>Step →</em> to advance
+              by one step and observe each agent's movement.
+            </p>
+          </div>
+          <div class="sim-concept-card">
+            <span class="sim-tag sim-tag-teal">Mesa</span>
+            <h4>Mapping to Mesa code</h4>
+            <p>
+              In a real Mesa model: <code>self.model.grid.move_agent()</code>
+              repositions an agent, <code>self.agents.shuffle_do("step")</code>
+              activates them in random order, and <code>DataCollector</code>
+              records state at each step.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTRIBUTE ===== -->
+    <section class="section" id="contribute">
+      <div class="bg-pattern bg-pattern--grid bg-pattern--fade-edges"></div>
+      <div class="container">
+        <div class="section-label">Open Source</div>
+        <h2 class="section-title">Contributing to Mesa</h2>
+        <p class="section-intro">
+          Mesa is a community-maintained project. Bug reports, documentation
+          improvements, and code contributions are all welcome.
+        </p>
+        <div class="contribute-grid">
+          <div class="contribute-card">
+            <h3>🐛 Report Bugs</h3>
+            <p>Found an issue? Open a GitHub issue with a minimal reproducible example.</p>
+            <a href="https://github.com/projectmesa/mesa/issues" target="_blank" class="card-link">Open an Issue →</a>
+          </div>
+          <div class="contribute-card">
+            <h3>💡 Propose Changes</h3>
+            <p>Have a feature idea or design suggestion? Open a GitHub discussion to gather feedback before implementation.</p>
+            <a href="https://github.com/projectmesa/mesa/discussions" target="_blank" class="card-link">Start a Discussion →</a>
+          </div>
+          <div class="contribute-card">
+            <h3>📖 Improve Docs</h3>
+            <p>Documentation contributions — including corrections, examples, and tutorials — are as valuable as code changes.</p>
+            <a href="https://github.com/projectmesa/mesa/tree/main/docs" target="_blank" class="card-link">Browse Docs Source →</a>
+          </div>
+          <div class="contribute-card">
+            <h3>🔧 Submit a PR</h3>
+            <p>Fork the repository, create a branch, implement your changes, and open a pull request against the main branch.</p>
+            <a href="https://github.com/projectmesa/mesa/blob/main/CONTRIBUTING.md" target="_blank" class="card-link">Read Contributing Guide →</a>
+          </div>
+        </div>
+        <div class="contribute-steps">
+          <h3>Contribution Workflow</h3>
+          <div class="code-block" data-lang="bash">
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+            <pre><code><span class="cm"># Fork the repo on GitHub, then:</span>
+git clone https://github.com/YOUR_USERNAME/mesa.git
+cd mesa
+pip install -e ".[dev]"         <span class="cm"># install development dependencies</span>
+git checkout -b my-feature      <span class="cm"># create a feature branch</span>
+
+<span class="cm"># ... implement changes ...</span>
+
+pytest                          <span class="cm"># run the test suite</span>
+git push origin my-feature      <span class="cm"># push branch and open a pull request</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RESOURCES ===== -->
+    <section class="section section-alt" id="resources">
+      <div class="bg-pattern bg-pattern--diagonal-stripes bg-pattern--fade-x"></div>
+      <div class="container">
+        <div class="section-label">Learn More</div>
+        <h2 class="section-title">Resources</h2>
+        <p class="section-intro">
+          Reference material, tutorials, and community channels for Mesa users.
+        </p>
+        <div class="resources-grid">
+          <a href="https://mesa.readthedocs.io" target="_blank" class="resource-card">
+            <div class="resource-icon">📚</div>
+            <div class="resource-content">
+              <h3>Official Docs</h3>
+              <p>Full API reference, guides, and tutorials on ReadTheDocs.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="https://mesa.readthedocs.io/stable/tutorials/intro_tutorial.html" target="_blank" class="resource-card">
+            <div class="resource-icon">🎓</div>
+            <div class="resource-content">
+              <h3>Intro Tutorial</h3>
+              <p>Step-by-step guide to building the classic money model.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="https://github.com/projectmesa/mesa-examples" target="_blank" class="resource-card">
+            <div class="resource-icon">🗂</div>
+            <div class="resource-content">
+              <h3>Example Models</h3>
+              <p>A repository of runnable example simulations covering common ABM patterns.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="https://github.com/projectmesa/mesa/discussions" target="_blank" class="resource-card">
+            <div class="resource-icon">💬</div>
+            <div class="resource-content">
+              <h3>GitHub Discussions</h3>
+              <p>Ask questions, share models, and follow project developments.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="https://matrix.to/#/#project-mesa:matrix.org" target="_blank" class="resource-card">
+            <div class="resource-icon">🧩</div>
+            <div class="resource-content">
+              <h3>Matrix Chat</h3>
+              <p>Real-time community chat for questions and discussion.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+          <a href="https://github.com/projectmesa/mesa/releases" target="_blank" class="resource-card">
+            <div class="resource-icon">🚀</div>
+            <div class="resource-content">
+              <h3>Changelog</h3>
+              <p>Release notes for each version of Mesa.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">⬡</span> Mesa
+        <span class="footer-tagline">Agent-Based Modeling in Python</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/projectmesa/mesa" target="_blank">GitHub</a>
+        <a href="https://mesa.readthedocs.io" target="_blank">Docs</a>
+        <a href="https://github.com/projectmesa/mesa/blob/main/LICENSE" target="_blank">License</a>
+      </div>
+      <div class="footer-copy">
+        Apache 2.0 Licensed · Mesa Project &amp; Contributors
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+  <script src="script.js"></script>
+</body>
+</html>
